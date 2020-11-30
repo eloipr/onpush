@@ -1,0 +1,21 @@
+<h2>Members</h2>
+<div>
+    <mat-accordion>
+        <ng-container *ngFor="let member of members; trackBy: identify">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-expansion-panel-description>
+                        <app-member [member]="member"></app-member>
+                    </mat-expansion-panel-description>
+                </mat-expansion-panel-header>
+                <div>
+                    <ng-container *ngFor="let task of member.tasks; trackBy: identify">
+                        <app-task [task]="task"></app-task>
+                    </ng-container>
+                </div>
+            </mat-expansion-panel>
+        </ng-container>
+    </mat-accordion>
+</div>
+<button (click)="addMember.emit()">Add member</button>
+<button (click)="updateMembers.emit()">Update members</button>
