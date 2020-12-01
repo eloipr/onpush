@@ -6,7 +6,7 @@ import { first, map, distinctUntilChanged, switchMap, tap } from "rxjs/operators
 
 import { IMember } from "../interfaces/member";
 
-const apiUrl = "http://localhost:8080";
+const apiUrl = "http://localhost:8081";
 
 export interface State {
     members: IMember[];
