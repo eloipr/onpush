@@ -7,7 +7,6 @@ import { ITask } from "src/app/interfaces/task";
     selector: "app-member-list",
     templateUrl: "./member-list.component.html",
     styleUrls: ["./member-list.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MemberListComponent implements OnInit {
     @Input() members: IMember[] = [];

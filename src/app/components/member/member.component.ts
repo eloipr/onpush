@@ -6,7 +6,6 @@ import { IMember } from "src/app/interfaces/member";
     selector: "app-member",
     templateUrl: "./member.component.html",
     styleUrls: ["./member.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MemberComponent implements OnInit {
     @Input() member: IMember;

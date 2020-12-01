@@ -6,7 +6,7 @@ import { first, map, distinctUntilChanged, switchMap, tap } from "rxjs/operators
 
 import { IMember } from "../interfaces/member";
 
-const apiUrl = "http://localhost:8080";
+const apiUrl = "http://localhost:8081";
 
 export interface State {
     members: IMember[];
@@ -41,7 +41,8 @@ export class MemberService {
         return this.http.get<IMember[]>(`${apiUrl}/members`).pipe(
             first(),
             tap((members) => {
-                this.updateState({ ..._state, members, loading: false });
+                // this.updateState({ ..._state, members, loading: false });
+                this.updateMembers(members);
             })
         );
     }
@@ -57,5 +58,23 @@ export class MemberService {
 
     private updateState(state: State): void {
         this.store.next((_state = state));
+    }
+
+    private updateMembers(members: IMember[]): void {
+        if (_state.members.length === 0) {
+            _state.members = members;
+        } else {
+            for (let i = 0; i < members.length; ++i) {
+                this.changeMember(_state.members[i], members[i]);
+            }
+        }
+        this.store.next(_state);
+    }
+
+    private changeMember(oldMember: IMember, newMember: IMember): void {
+        oldMember.genre = newMember.genre;
+        oldMember.name = newMember.name;
+        oldMember.age = newMember.age;
+        oldMember.tasks = newMember.tasks;
     }
 }
