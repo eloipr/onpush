@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
-import { IMember } from "src/app/interfaces/member";
-import { MemberService } from "src/app/services/member.service";
-import { Observable } from "rxjs";
+import { Store, select } from "@ngrx/store";
+import { timer } from "rxjs";
+
+import { selectMembers } from "src/app/state/selectors/members.selectors";
+import { loadMembers } from "src/app/state/actions/members.actions";
 
 @Component({
     selector: "app-members-container",
@@ -10,25 +12,11 @@ import { Observable } from "rxjs";
     styleUrls: ["./members-container.component.scss"],
 })
 export class MembersContainerComponent implements OnInit {
-    members$: Observable<IMember[]>;
-    loading$: Observable<boolean>;
+    members$ = this.store.pipe(select(selectMembers));
 
-    constructor(private memberService: MemberService) {}
+    constructor(private store: Store) {}
 
     ngOnInit(): void {
-        this.members$ = this.memberService.members$;
-        this.loading$ = this.memberService.loading$;
+        timer(0, 5000).subscribe(() => this.store.dispatch(loadMembers()));
     }
-
-    // addMember(): void {
-    //     this.memberService.getMember().subscribe((member) => {
-    //         this.members = [...this.members, member];
-    //     });
-    // }
-
-    // getMembers(): void {
-    //     this.memberService.getMembers().subscribe((members) => {
-    //         this.members = [...members];
-    //     });
-    // }
 }
